@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Medical Image Diagnosis</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            background-color: #f2f2f2;
+            text-align: center;
+        }
+        h2 {
+            color: #333;
+        }
+        form {
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            width: 50%;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        input[type="file"] {
+            margin-bottom: 15px;
+        }
+        input[type="submit"] {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            display: inline-block;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        img {
+            margin-top: 15px;
+            height: 300px;
+            border-radius: 10px;
+        }
+        .logout-btn {
+            text-decoration: none;
+            color: white;
+            background: red;
+            padding: 6px 12px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body> 
+
+    {% if current_user.is_authenticated %}
+    <p style="text-align: right;">Welcome, <strong>{{ current_user.id }}</strong> 👋</p>
+    <div style="text-align: right; margin-bottom: 10px;">
+        <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+    </div>
+    {% endif %}
+
+    <h2>Medical Image Diagnosis</h2>
+
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" required><br>
+        <input type="submit" value="Predict">
+    </form>
+
+    {% if result %}
+        <div class="result">
+            <h3>{{ result }}</h3>
+            <img src="{{ img_path }}" alt="Grad-CAM Image">
+        </div>
+    {% endif %}
+
+</body>
+</html>
