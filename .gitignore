@@ -1,0 +1,16 @@
+# Ignore virtual environments
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Model files
+*.h5
+
+# Uploads
+static/uploads/
+
+# macOS hidden file
+.DS_Store
+
