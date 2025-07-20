@@ -6,10 +6,10 @@ import matplotlib.pyplot as plt
 import os
 import tensorflow as tf
 
-# Load model
+
 model = load_model('model/medical_image_model.h5')
 
-# Grad-CAM + Prediction
+
 def predict_image(img_path):
     try:
         img = image.load_img(img_path, target_size=(150, 150))
@@ -20,7 +20,7 @@ def predict_image(img_path):
         confidence = prediction * 100 if prediction > 0.5 else (1 - prediction) * 100
         label = "Pneumonia Detected" if prediction > 0.5 else "Normal"
 
-        # Grad-CAM
+   
         last_conv_layer = model.get_layer(index=-5)  # You may adjust this index
         grad_model = tf.keras.models.Model([model.inputs], [last_conv_layer.output, model.output])
         with tf.GradientTape() as tape:
@@ -33,7 +33,7 @@ def predict_image(img_path):
         heatmap = tf.squeeze(heatmap)
         heatmap = np.maximum(heatmap, 0) / np.max(heatmap)
 
-        # Load original image (for overlay)
+       
         img = cv2.imread(img_path)
         img = cv2.resize(img, (150, 150))
         heatmap = cv2.resize(heatmap, (img.shape[1], img.shape[0]))
@@ -41,7 +41,7 @@ def predict_image(img_path):
         heatmap_color = cv2.applyColorMap(heatmap, cv2.COLORMAP_JET)
         superimposed = cv2.addWeighted(img, 0.6, heatmap_color, 0.4, 0)
 
-        # Save Grad-CAM result
+  
         cam_path = img_path.replace('.jpg', '_cam.jpg').replace('.jpeg', '_cam.jpg')
         cv2.imwrite(cam_path, superimposed)
 
